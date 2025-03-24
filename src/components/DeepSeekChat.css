@@ -1,0 +1,509 @@
+.chat-container {
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  padding-bottom: 120px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.message {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 85%;
+  width: fit-content;
+}
+
+.user-message {
+  background-color: #e3f2fd;
+  margin-left: auto;
+  border-radius: 12px 12px 2px 12px;
+}
+
+.assistant-message {
+  background-color: #ffffff;
+  margin-right: auto;
+  border-radius: 12px 12px 12px 2px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.message-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.markdown-content {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #1a1a1a;
+}
+
+.markdown-content p {
+  margin: 0.8rem 0;
+}
+
+.markdown-content pre {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #282a36;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.markdown-content code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9em;
+}
+
+.markdown-inline-code {
+  background-color: #f1f5f9;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  color: #1a1a1a;
+}
+
+.code-block {
+  position: relative;
+  margin: 1rem 0;
+  background-color: #282a36;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.code-language {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  padding: 0.25rem 0.5rem;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-family: 'Fira Code', monospace;
+}
+
+.controls {
+  position: absolute;
+  bottom: 56px;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background-color: #ffffff;
+  padding: 0 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.stream-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  height: 32px;
+}
+
+.stream-toggle:hover {
+  background-color: #f8fafc;
+}
+
+.stream-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  user-select: none;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e2e8f0;
+  transition: 0.2s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+}
+
+input:checked + .slider {
+  background-color: #3b82f6;
+}
+
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+.input-area {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: #ffffff;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e5e7eb;
+  z-index: 10;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+button:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.thinking-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  width: fit-content;
+  color: #4b5563;
+  font-size: 0.9rem;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.thinking-icon {
+  width: 20px;
+  height: 20px;
+  color: #3b82f6;
+}
+
+.thinking-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.thinking-dot {
+  width: 4px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 50%;
+  animation: pulse 1.4s infinite;
+  opacity: 0.5;
+}
+
+.thinking-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.thinking-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+}
+
+.cursor-container {
+  display: inline-flex;
+  align-items: center;
+  height: 1.2em;
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+.cursor {
+  width: 2px;
+  height: 1em;
+  background-color: #3b82f6;
+  animation: blink 1s infinite;
+}
+
+.thinking-message {
+  padding: 0.5rem 0;
+  min-height: 1.6em;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.think-content {
+  background-color: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  margin: 0.25rem 0;
+  font-size: 0.8125rem;
+  overflow: hidden;
+}
+
+.think-header {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.think-icon {
+  width: 14px;
+  height: 14px;
+  color: #64748b;
+}
+
+.think-body {
+  padding: 0.5rem;
+  color: #64748b;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.think-p {
+  margin: 0.25rem 0;
+}
+
+.think-p:first-child {
+  margin-top: 0;
+}
+
+.think-p:last-child {
+  margin-bottom: 0;
+}
+
+.think-inline-code {
+  background-color: #e2e8f0;
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875em;
+  color: #475569;
+}
+
+.think-code-block {
+  background-color: #e2e8f0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0.375rem 0;
+  overflow-x: auto;
+}
+
+.think-code-block code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875em;
+  color: #475569;
+}
+
+.think-body ul,
+.think-body ol {
+  margin: 0.375rem 0;
+  padding-left: 1.25rem;
+}
+
+.think-body li {
+  margin: 0.25rem 0;
+}
+
+.think-body ul ul,
+.think-body ol ul,
+.think-body ul ol,
+.think-body ol ol {
+  margin: 0.25rem 0 0.25rem 0.75rem;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.markdown-content ul,
+.think-body ul {
+  list-style-type: none;
+}
+
+.markdown-content ul li,
+.think-body ul li {
+  position: relative;
+  padding-left: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.markdown-content ul li::before,
+.think-body ul li::before {
+  content: "•";
+  position: absolute;
+  left: -1rem;
+  color: #64748b;
+}
+
+.markdown-content ol,
+.think-body ol {
+  list-style-type: decimal;
+  counter-reset: item;
+}
+
+.markdown-content ol li,
+.think-body ol li {
+  position: relative;
+  padding-left: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.markdown-content ul ul,
+.markdown-content ol ul,
+.markdown-content ul ol,
+.markdown-content ol ol,
+.think-body ul ul,
+.think-body ol ul,
+.think-body ul ol,
+.think-body ol ol {
+  margin: 0.5rem 0 0.5rem 1rem;
+}
+
+.markdown-content li > p,
+.think-body li > p {
+  margin: 0.25rem 0;
+}
+
+.markdown-content li > p:first-child,
+.think-body li > p:first-child {
+  margin-top: 0;
+}
+
+.markdown-content li > p:last-child,
+.think-body li > p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content ul ul li::before,
+.think-body ul ul li::before {
+  content: "◦";
+}
+
+.markdown-content ul ul ul li::before,
+.think-body ul ul ul li::before {
+  content: "▪";
+}
+
+.markdown-content li > *:not(:last-child),
+.think-body li > *:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content li pre,
+.think-body li pre {
+  margin: 0.5rem 0;
+}
+
+/* Scrollbar Styling */
+.messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
