@@ -413,7 +413,7 @@ button:disabled {
 
 .markdown-content ul,
 .think-body ul {
-  list-style-type: none;
+  list-style: none;
 }
 
 .markdown-content ul li,
@@ -506,4 +506,69 @@ button:disabled {
 
 .messages-container::-webkit-scrollbar-thumb:hover {
   background-color: #94a3b8;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: #475569;
+  min-height: 60vh;
+}
+
+.empty-state-icon {
+  width: 48px;
+  height: 48px;
+  color: #3b82f6;
+  margin-bottom: 1.5rem;
+}
+
+.empty-state-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.empty-state h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.empty-state ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.empty-state li {
+  margin: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.empty-state li::before {
+  content: "→";
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.empty-state-footer {
+  font-size: 0.875rem;
+  color: #64748b;
+  padding: 0.75rem 1rem;
+  background-color: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
 }

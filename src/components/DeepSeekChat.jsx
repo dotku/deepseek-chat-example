@@ -9,9 +9,19 @@ const API_URL = "http://localhost:5000/v1/chat/completions";
 
 const ThinkingIndicator = () => (
   <div className="thinking-indicator">
-    <svg className="thinking-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" 
-        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg
+      className="thinking-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
     <span>AI is thinking</span>
     <div className="thinking-dots">
@@ -28,16 +38,27 @@ const MessageContent = ({ content, isUser, isThinking }) => {
   }
 
   // Handle think content
-  const isThinkContent = content?.startsWith("<think>") && content?.endsWith("</think>");
+  const isThinkContent =
+    content?.startsWith("<think>") && content?.endsWith("</think>");
   const thinkContent = isThinkContent ? content.slice(7, -8).trim() : null;
 
   if (thinkContent) {
     return (
       <div className="think-content">
         <div className="think-header">
-          <svg className="think-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" 
-              stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg
+            className="think-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           <span>Thinking Process</span>
         </div>
@@ -49,11 +70,17 @@ const MessageContent = ({ content, isUser, isThinking }) => {
               p: ({ children }) => <p className="think-p">{children}</p>,
               code: ({ inline, className, children, ...props }) => {
                 if (inline) {
-                  return <code className="think-inline-code" {...props}>{children}</code>;
+                  return (
+                    <code className="think-inline-code" {...props}>
+                      {children}
+                    </code>
+                  );
                 }
                 return (
                   <div className="think-code-block">
-                    <code className={className} {...props}>{children}</code>
+                    <code className={className} {...props}>
+                      {children}
+                    </code>
                   </div>
                 );
               },
@@ -126,6 +153,31 @@ export default function DeepSeekChat() {
   const messageEndRef = useRef(null);
   const inputRef = useRef(null);
 
+  const EmptyState = () => (
+    <div className="empty-state">
+      <div className="empty-state-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M8 12H8.01M12 12H12.01M16 12H16.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+      <h2>Welcome to DeepSeek Chat</h2>
+      <p>Start a conversation with DeepSeek AI. You can:</p>
+      <ul>
+        <li>Ask questions about any topic</li>
+        <li>Get help with coding and technical problems</li>
+        <li>Brainstorm ideas and solutions</li>
+        <li>Learn about new concepts and technologies</li>
+      </ul>
+      <div className="empty-state-footer">Type your message below to begin</div>
+    </div>
+  );
+
   const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -149,7 +201,7 @@ export default function DeepSeekChat() {
 
     const messageId = Date.now();
     setMessages((prev) => {
-      if (prev.some(m => m.id === messageId)) return prev;
+      if (prev.some((m) => m.id === messageId)) return prev;
       return [...prev, { id: messageId, role: "user", content: userMessage }];
     });
 
@@ -172,8 +224,11 @@ export default function DeepSeekChat() {
         setIsThinking(false);
         const assistantMessageId = Date.now();
         setMessages((prev) => {
-          if (prev.some(m => m.id === assistantMessageId)) return prev;
-          return [...prev, { id: assistantMessageId, role: "assistant", content: "" }];
+          if (prev.some((m) => m.id === assistantMessageId)) return prev;
+          return [
+            ...prev,
+            { id: assistantMessageId, role: "assistant", content: "" },
+          ];
         });
 
         const reader = response.body.getReader();
@@ -228,7 +283,7 @@ export default function DeepSeekChat() {
         if (data.choices && data.choices[0]?.message?.content) {
           const messageId = Date.now();
           setMessages((prev) => {
-            if (prev.some(m => m.id === messageId)) return prev;
+            if (prev.some((m) => m.id === messageId)) return prev;
             return [
               ...prev,
               {
@@ -245,7 +300,7 @@ export default function DeepSeekChat() {
       setIsThinking(false);
       const messageId = Date.now();
       setMessages((prev) => {
-        if (prev.some(m => m.id === messageId)) return prev;
+        if (prev.some((m) => m.id === messageId)) return prev;
         return [
           ...prev,
           {
@@ -265,32 +320,36 @@ export default function DeepSeekChat() {
   return (
     <div className="chat-container">
       <div className="messages-container">
-        {messages.map((message, index) => (
-          <div
-            key={message.id}
-            className={`message ${
-              message.role === "user" ? "user-message" : "assistant-message"
-            }`}
-          >
-            {message.content ? (
-              <MessageContent
-                content={message.content}
-                isUser={message.role === "user"}
-                isThinking={isLoading && index === messages.length - 1}
-              />
-            ) : (
-              message.role === "assistant" &&
-              isLoading &&
-              index === messages.length - 1 && (
-                <div className="thinking-message">
-                  <div className="cursor-container">
-                    <div className="cursor"></div>
+        {messages.length === 0 ? (
+          <EmptyState />
+        ) : (
+          messages.map((message, index) => (
+            <div
+              key={message.id}
+              className={`message ${
+                message.role === "user" ? "user-message" : "assistant-message"
+              }`}
+            >
+              {message.content ? (
+                <MessageContent
+                  content={message.content}
+                  isUser={message.role === "user"}
+                  isThinking={isLoading && index === messages.length - 1}
+                />
+              ) : (
+                message.role === "assistant" &&
+                isLoading &&
+                index === messages.length - 1 && (
+                  <div className="thinking-message">
+                    <div className="cursor-container">
+                      <div className="cursor"></div>
+                    </div>
                   </div>
-                </div>
-              )
-            )}
-          </div>
-        ))}
+                )
+              )}
+            </div>
+          ))
+        )}
         {isThinking && <ThinkingIndicator />}
         <div ref={messageEndRef} />
       </div>
@@ -313,6 +372,7 @@ export default function DeepSeekChat() {
         <input
           ref={inputRef}
           type="text"
+          autoFocus
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
