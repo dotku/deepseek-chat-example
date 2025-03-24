@@ -5,7 +5,7 @@ import rehypeHighlight from "rehype-highlight";
 import "./DeepSeekChat.css";
 import "highlight.js/styles/github-dark.min.css";
 
-const API_URL = "http://localhost:5000/v1/chat/completions";
+const API_URL = import.meta.env.VITE_DEEPSEEK_URI;
 
 const ThinkingIndicator = () => (
   <div className="thinking-indicator">
